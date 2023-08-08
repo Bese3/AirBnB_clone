@@ -13,14 +13,21 @@ class BaseModel:
     functionality for creating and updating objects, as well as
     converting objects to dictionaries and string representations.
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         The above function initializes an object with a unique
         ID and timestamps for creation and update.
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs == {}:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+        else:
+            for i, j in zip(kwargs.keys(), kwargs.values()):
+                if i != "__class__":
+                    if i == "created_at" or i == "updated_at":
+                        j = datetime.strptime(j, "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, i, j)
 
     def save(self):
         """

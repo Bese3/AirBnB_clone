@@ -54,3 +54,16 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(my_dict.get("__class__"), 'BaseModel')
         self.assertEqual(my_dict.get("created_at"), created_at.isoformat())
         self.assertEqual(my_dict.get("updated_at"), updated_at.isoformat())
+
+    def test_kwargs(self):
+        """
+        The function `test_kwargs` creates a new `BaseModel` object
+        using the dictionary as keyword arguments, and asserts that
+        the attributes of the original and new objects are equal.
+        """
+        s = BaseModel()
+        my_dict = s.to_dict()
+        my_new_model = BaseModel(**my_dict)
+        self.assertEqual(s.id, my_new_model.id)
+        self.assertEqual(s.created_at, my_new_model.created_at.isoformat())
+        self.assertEqual(s.updated_at, my_new_model.updated_at.isoformat())
