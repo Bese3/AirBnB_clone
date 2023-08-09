@@ -48,6 +48,24 @@ class HBNBCommand(cmd.Cmd):
         except NameError:
             print("** class doesn't exist **")
 
+    def do_show(self, args):
+        """`show` Usage: show <class> <id>
+        Display the string representation of a class instance."""
+        args = args.split(" ")
+        if len(args) == 1 and args == ['']:
+            print("** class name missing **")
+            return
+        if args[0] not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        if len(args) == 1:
+            print("** instance id missing **")
+            return
+        if args[0] + "." + args[1] not in models.storage.all().keys():
+            print("** no instance found **")
+            return
+        print(models.storage.all()[args[0] + "." + args[1]])
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
