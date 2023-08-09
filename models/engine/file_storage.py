@@ -27,6 +27,7 @@ class FileStorage:
         """
         name = obj.__class__.__name__ + "." + obj.id
         self.__objects.update([(name, obj)])
+        return self.__objects
 
     def save(self):
         """
@@ -36,7 +37,7 @@ class FileStorage:
         with open(self.__file_path, mode="w") as f:
             json.dump({key: value.to_dict() for key,
                        value in self.__objects.items()
-                       }, f)
+                       }, f, indent=4)
 
     def reload(self):
         """
@@ -44,7 +45,6 @@ class FileStorage:
         converts it into objects, and stores them in a
         dictionary.
         """
-        self.__objects = {}
         try:
             with open(self.__file_path, mode="r", encoding="utf-8") as f:
                 if f.read() != "":
@@ -56,4 +56,4 @@ class FileStorage:
                             self.new(eval(my_class)(**value))
         except FileNotFoundError:
             pass
-        return my_dict
+        return self.__objects

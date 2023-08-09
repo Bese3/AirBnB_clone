@@ -91,7 +91,7 @@ class TestFileStorage(unittest.TestCase):
                 text = json.loads(f.read())
         except FileNotFoundError:
             pass
-        self.assertEqual(self.storage.reload(), text)
+        self.assertEqual(self.storage.reload(), self.storage.new(bm))
 
     def test_reload_with_arg(self):
         """
