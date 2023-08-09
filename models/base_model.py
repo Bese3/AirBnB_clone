@@ -45,11 +45,14 @@ class BaseModel:
         into a dictionary,including the object's class name
         and creation/update timestamps.
         """
-        my_dict = self.__dict__
-        my_dict.update([("__class__", self.__class__.__name__),
-                        ("created_at", self.created_at.isoformat()),
-                        ("updated_at", self.updated_at.isoformat())])
-        return my_dict
+        map_objects = {}
+        for key, value in self.__dict__.items():
+            if key == "created_at" or key == "updated_at":
+                map_objects[key] = value.isoformat()
+            else:
+                map_objects[key] = value
+        map_objects["__class__"] = self.__class__.__name__
+        return map_objects
 
     def __str__(self):
         """

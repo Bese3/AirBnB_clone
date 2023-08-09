@@ -1,23 +1,49 @@
 #!/usr/bin/python3
 import json
 from models.base_model import BaseModel
+"""importing everything for `FileStorage` class"""
+
+
 class FileStorage:
+    """
+    The `FileStorage` class provides methods for storing
+    and retrieving objects in a JSON file
+    """
+
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
+        """
+        The method returns all objects.
+        """
         return self.__objects
 
     def new(self, obj):
+        """
+        The method "new" takes an object and adds it to a
+        dictionary with a key that consists of the
+        object's class name and id.
+        """
         name = obj.__class__.__name__ + "." + obj.id
         self.__objects.update([(name, obj)])
 
     def save(self):
+        """
+        The above method saves the objects in a dictionary
+        to a JSON file.
+        """
         with open(self.__file_path, mode="w") as f:
-             json.dump({key: value.to_dict() for key, value in self.__objects.items()
+            json.dump({key: value.to_dict() for key,
+                       value in self.__objects.items()
                        }, f)
 
     def reload(self):
+        """
+        The `reload` method reads data from a file,
+        converts it into objects, and stores them in a
+        dictionary.
+        """
         self.__objects = {}
         try:
             with open(self.__file_path, mode="r", encoding="utf-8") as f:

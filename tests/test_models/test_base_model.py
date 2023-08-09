@@ -65,8 +65,8 @@ class TestBaseModel(unittest.TestCase):
         my_dict = s.to_dict()
         s2 = BaseModel(**my_dict)
         self.assertEqual(s.id, s2.id)
-        self.assertEqual(s.created_at, s2.created_at.isoformat())
-        self.assertEqual(s.updated_at, s2.updated_at.isoformat())
+        self.assertEqual(s.created_at, s2.created_at)
+        self.assertEqual(s.updated_at, s2.updated_at)
         self.assertFalse(s is s2)
 
 
