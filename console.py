@@ -103,7 +103,8 @@ class HBNBCommand(cmd.Cmd):
                 print(models.storage.all()[i])
 
     def do_update(self, args):
-        """`update` update <class name> <id> <attribute name> "<attribute value>"
+        """`update`
+        update <class name> <id> <attribute name> "<attribute value>"
         Updates current instance of a class."""
 
         args = args.split(" ")
@@ -138,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
                     models.storage.save()
                     return
             except ValueError:
-                setattr(obj, args[2], (args[3]).replace("\"",""))
+                setattr(obj, args[2], (args[3]).replace("\"", ""))
                 models.storage.save()
 
 
