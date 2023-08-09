@@ -14,6 +14,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     __classes = {
         "BaseModel",
+        "User",
     }
 
     def do_quit(self, *args):
@@ -84,6 +85,22 @@ class HBNBCommand(cmd.Cmd):
             return
         del models.storage.all()[args[0] + "." + args[1]]
         models.storage.save()
+
+    def do_all(self, args):
+        """`all`Usage: all or all <class>
+        Display string representations of all instances of a given class."""
+
+        args = args.split(" ")
+        if args == ['']:
+            for i in models.storage.all().values():
+                print(i)
+            return
+        if args[0] not in self.__classes and args != ['']:
+            print("** class doesn't exist **")
+            return
+        for i in models.storage.all().keys():
+            if args[0] in i:
+                print(models.storage.all()[i])
 
 
 if __name__ == '__main__':
