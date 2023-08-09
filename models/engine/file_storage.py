@@ -56,3 +56,4 @@ class FileStorage:
                             self.new(eval(my_class)(**value))
         except FileNotFoundError:
             pass
+        return my_dict
