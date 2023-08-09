@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from uuid import uuid4
 from datetime import datetime
+import models
 
 """
 a base class model for other projects
@@ -22,6 +23,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
         else:
             for i, j in zip(kwargs.keys(), kwargs.values()):
                 if i != "__class__":
@@ -34,6 +36,7 @@ class BaseModel:
         The function updates the "updated_at" attribute of
         an object with the current datetime.
         """
+        models.storage.save()
         self.updated_at = datetime.now()
 
     def to_dict(self):

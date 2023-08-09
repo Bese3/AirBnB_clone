@@ -63,7 +63,12 @@ class TestBaseModel(unittest.TestCase):
         """
         s = BaseModel()
         my_dict = s.to_dict()
-        my_new_model = BaseModel(**my_dict)
-        self.assertEqual(s.id, my_new_model.id)
-        self.assertEqual(s.created_at, my_new_model.created_at.isoformat())
-        self.assertEqual(s.updated_at, my_new_model.updated_at.isoformat())
+        s2 = BaseModel(**my_dict)
+        self.assertEqual(s.id, s2.id)
+        self.assertEqual(s.created_at, s2.created_at.isoformat())
+        self.assertEqual(s.updated_at, s2.updated_at.isoformat())
+        self.assertFalse(s is s2)
+
+
+if __name__ == '__main__':
+    unittest.main()
