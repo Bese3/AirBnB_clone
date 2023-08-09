@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 import cmd
+from models.base_model import BaseModel
+import models
 """importing everything for `HBNBCommand` class"""
 
 
@@ -10,6 +12,9 @@ class HBNBCommand(cmd.Cmd):
     such as quitting or handling the end of file signal.
     """
     prompt = "(hbnb) "
+    __classes = {
+        "BaseModel",
+    }
 
     def do_quit(self, *args):
         """`quit` command quits the process at hand"""
@@ -25,6 +30,23 @@ class HBNBCommand(cmd.Cmd):
         The function "emptyline" does nothing and serves as a placeholder.
         """
         pass
+
+    def do_create(self, args):
+        """`create` creates a new instance of a class and saves it,
+         printing the ID of the new instance."""
+        args = args.split(" ")
+        try:
+            if args == ['']:
+                raise SyntaxError
+            if args[0] not in self.__classes:
+                raise NameError
+            new_instance = eval(args[0])()
+            new_instance.save()
+            print(new_instance.id)
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
 
 
 if __name__ == '__main__':
