@@ -1530,7 +1530,8 @@
     "User.d12cb79b-454b-4364-893d-fdeaf59853d7": {
         "id": "d12cb79b-454b-4364-893d-fdeaf59853d7",
         "created_at": "2023-08-10T11:00:52.458905",
-        "updated_at": "2023-08-10T11:00:52.458920",
+        "updated_at": "2023-08-10T11:40:59.039554",
+        "first_name": "AirBnB",
         "__class__": "User"
     }
 }
