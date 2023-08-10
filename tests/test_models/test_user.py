@@ -5,6 +5,11 @@ import unittest
 
 
 class TestUser(unittest.TestCase):
+    """
+    The TestUser class contains unit tests for the User class,
+    including tests for instantiation, string representation, saving,
+    and converting to a dictionary.
+    """
     def test_instant(self):
         """
         The function tests the instantiation and saving
@@ -86,3 +91,7 @@ class TestUser(unittest.TestCase):
         self.assertEqual(s.to_dict().get("password"),
                          s2.to_dict().get("password"))
         self.assertFalse(s is s2)
+
+
+if __name__ == '__main__':
+    unittest.main()
