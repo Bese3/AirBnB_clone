@@ -3,6 +3,11 @@ import cmd
 from models.base_model import BaseModel
 import models
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 """importing everything for `HBNBCommand` class"""
 
 
@@ -16,6 +21,11 @@ class HBNBCommand(cmd.Cmd):
     __classes = {
         "BaseModel",
         "User",
+        "Place",
+        "State",
+        "City",
+        "Amenity",
+        "Review",
     }
 
     def do_quit(self, *args):
@@ -106,6 +116,8 @@ class HBNBCommand(cmd.Cmd):
         Updates current instance of a class."""
 
         args = args.split(" ")
+        print(args)
+        print(args[3][0])
         if len(args) == 1 and args == ['']:
             print("** class name missing **")
             return
@@ -137,7 +149,17 @@ class HBNBCommand(cmd.Cmd):
                     obj.save()
                     return
             except ValueError:
-                setattr(obj, args[2], (args[3]).replace("\"", ""))
+                """handling Double Quotes in arguments"""
+                if args[3][0] == "\"":
+                    value = ""
+                    i = 3
+                    while i < len(args):
+                        value += args[i].replace("\"", "")
+                        if i != len(args) - 1:
+                            value += " "
+                        i += 1
+                    args[3] = value
+                setattr(obj, args[2], (args[3]))
                 obj.save()
 
 
