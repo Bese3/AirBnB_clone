@@ -20,6 +20,11 @@ class TestFileStorage(unittest.TestCase):
         self.storage = models.storage
         self.BaseModel = models.base_model.BaseModel
         self.User = models.user.User
+        self.State = models.state.State
+        self.City = models.city.City
+        self.Amenity = models.amenity.Amenity
+        self.Place = models.place.Place
+        self.Review = models.review.Review
         self.file_name = "file.json"
 
     def test_FileStorage_instantiation_no_args(self):
@@ -58,11 +63,38 @@ class TestFileStorage(unittest.TestCase):
         """
         bm = self.BaseModel()
         u = self.User()
+        s = self.State()
+        c = self.City()
+        a = self.Amenity()
+        p = self.Place()
+        r = self.Review()
         self.storage.new(bm)
         self.storage.new(u)
-        self.assertIn("BaseModel." + bm.id, self.storage.all().keys())
-        self.assertIn("User." + u.id, self.storage.all().keys())
+        self.storage.new(s)
+        self.storage.new(c)
+        self.storage.new(a)
+        self.storage.new(p)
+        self.storage.new(r)
+        self.assertIn("BaseModel." + bm.id,
+                      self.storage.all().keys())
+        self.assertIn("User." + u.id,
+                      self.storage.all().keys())
+        self.assertIn("State." + s.id,
+                      self.storage.all().keys())
+        self.assertIn("City." + c.id,
+                      self.storage.all().keys())
+        self.assertIn("Amenity." + a.id,
+                      self.storage.all().keys())
+        self.assertIn("Place." + p.id,
+                      self.storage.all().keys())
+        self.assertIn("Review." + r.id,
+                      self.storage.all().keys())
         self.assertIn(u, self.storage.all().values())
+        self.assertIn(s, self.storage.all().values())
+        self.assertIn(c, self.storage.all().values())
+        self.assertIn(a, self.storage.all().values())
+        self.assertIn(p, self.storage.all().values())
+        self.assertIn(r, self.storage.all().values())
 
     def test_save(self):
         """
@@ -71,8 +103,18 @@ class TestFileStorage(unittest.TestCase):
         """
         bm = self.BaseModel()
         u = self.User()
+        s = self.State()
+        c = self.City()
+        a = self.Amenity()
+        p = self.Place()
+        r = self.Review()
         self.storage.new(bm)
         self.storage.new(u)
+        self.storage.new(s)
+        self.storage.new(c)
+        self.storage.new(a)
+        self.storage.new(p)
+        self.storage.new(r)
         self.storage.save()
         text = ""
         try:
@@ -80,6 +122,11 @@ class TestFileStorage(unittest.TestCase):
                 text = f.read()
                 self.assertIn("BaseModel." + bm.id, text)
                 self.assertIn("User." + u.id, text)
+                self.assertIn("State." + s.id, text)
+                self.assertIn("City." + c.id, text)
+                self.assertIn("Amenity." + a.id, text)
+                self.assertIn("Place." + p.id, text)
+                self.assertIn("Review." + r.id, text)
         except FileNotFoundError:
             pass
 
@@ -91,10 +138,25 @@ class TestFileStorage(unittest.TestCase):
         """
         bm = self.BaseModel()
         u = self.User()
+        s = self.State()
+        c = self.City()
+        a = self.Amenity()
+        p = self.Place()
+        r = self.Review()
         self.storage.new(bm)
         self.storage.new(u)
+        self.storage.new(s)
+        self.storage.new(c)
+        self.storage.new(a)
+        self.storage.new(p)
+        self.storage.new(r)
         bm.save()
         u.save()
+        s.save()
+        c.save()
+        a.save()
+        p.save()
+        r.save()
         text = ""
         try:
             with open(self.file_name, mode="r", encoding="utf-8") as f:
@@ -103,6 +165,11 @@ class TestFileStorage(unittest.TestCase):
             pass
         self.assertEqual(self.storage.reload(), self.storage.new(bm))
         self.assertEqual(self.storage.reload(), self.storage.new(u))
+        self.assertEqual(self.storage.reload(), self.storage.new(s))
+        self.assertEqual(self.storage.reload(), self.storage.new(c))
+        self.assertEqual(self.storage.reload(), self.storage.new(a))
+        self.assertEqual(self.storage.reload(), self.storage.new(p))
+        self.assertEqual(self.storage.reload(), self.storage.new(r))
 
     def test_reload_with_arg(self):
         """
