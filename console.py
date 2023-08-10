@@ -2,6 +2,7 @@
 import cmd
 from models.base_model import BaseModel
 import models
+from models.user import User
 """importing everything for `HBNBCommand` class"""
 
 
@@ -36,18 +37,15 @@ class HBNBCommand(cmd.Cmd):
         """`create` creates a new instance of a class and saves it,
          printing the ID of the new instance."""
         args = args.split(" ")
-        try:
-            if args == ['']:
-                raise SyntaxError
-            if args[0] not in self.__classes:
-                raise NameError
-            new_instance = eval(args[0])()
-            new_instance.save()
-            print(new_instance.id)
-        except SyntaxError:
+        if args == ['']:
             print("** class name missing **")
-        except NameError:
+            return
+        if args[0] not in self.__classes:
             print("** class doesn't exist **")
+            return
+        new_instance = eval(args[0])()
+        new_instance.save()
+        print(new_instance.id)
 
     def do_show(self, args):
         """`show` Usage: show <class> <id>
@@ -130,17 +128,17 @@ class HBNBCommand(cmd.Cmd):
         try:
             if str(int(args[3])) == args[3]:
                 setattr(obj, args[2], int(args[3]))
-                models.storage.save()
+                obj.save()
                 return
         except ValueError:
             try:
                 if str(float(args[3])) == args[3]:
                     setattr(obj, args[2], float(args[3]))
-                    models.storage.save()
+                    obj.save()
                     return
             except ValueError:
                 setattr(obj, args[2], (args[3]).replace("\"", ""))
-                models.storage.save()
+                obj.save()
 
 
 if __name__ == '__main__':

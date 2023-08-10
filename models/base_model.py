@@ -35,9 +35,9 @@ class BaseModel:
         """
         The function updates the "updated_at" attribute of
         an object with the current datetime.
-        """
-        models.storage.save()
+        """ 
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """

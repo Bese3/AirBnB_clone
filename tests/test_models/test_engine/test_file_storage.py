@@ -19,6 +19,7 @@ class TestFileStorage(unittest.TestCase):
         """
         self.storage = models.storage
         self.BaseModel = models.base_model.BaseModel
+        self.User = models.user.User
         self.file_name = "file.json"
 
     def test_FileStorage_instantiation_no_args(self):
@@ -56,9 +57,12 @@ class TestFileStorage(unittest.TestCase):
         `BaseModel` is correctly added to the storage.
         """
         bm = self.BaseModel()
+        u = self.User()
         self.storage.new(bm)
+        self.storage.new(u)
         self.assertIn("BaseModel." + bm.id, self.storage.all().keys())
-        self.assertIn(bm, self.storage.all().values())
+        self.assertIn("User." + u.id, self.storage.all().keys())
+        self.assertIn(u, self.storage.all().values())
 
     def test_save(self):
         """
@@ -66,13 +70,16 @@ class TestFileStorage(unittest.TestCase):
         is saved correctly by checking if its ID is present in a file.
         """
         bm = self.BaseModel()
+        u = self.User()
         self.storage.new(bm)
+        self.storage.new(u)
         self.storage.save()
         text = ""
         try:
             with open(self.file_name, mode="r", encoding="utf-8") as f:
                 text = f.read()
                 self.assertIn("BaseModel." + bm.id, text)
+                self.assertIn("User." + u.id, text)
         except FileNotFoundError:
             pass
 
@@ -83,8 +90,11 @@ class TestFileStorage(unittest.TestCase):
         with the data read from a file.
         """
         bm = self.BaseModel()
+        u = self.User()
         self.storage.new(bm)
+        self.storage.new(u)
         bm.save()
+        u.save()
         text = ""
         try:
             with open(self.file_name, mode="r", encoding="utf-8") as f:
@@ -92,6 +102,7 @@ class TestFileStorage(unittest.TestCase):
         except FileNotFoundError:
             pass
         self.assertEqual(self.storage.reload(), self.storage.new(bm))
+        self.assertEqual(self.storage.reload(), self.storage.new(u))
 
     def test_reload_with_arg(self):
         """
