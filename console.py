@@ -176,6 +176,8 @@ class HBNBCommand(cmd.Cmd):
                 self.do_create(my_class)
             if my_func == "count":
                 self.do_count(my_class)
+            my_func = my_func.replace("(", " ")
+            my_func = my_func.replace(")", "")
             my_func = my_func.split(' ')
             i = 1
             while i < len(my_func):

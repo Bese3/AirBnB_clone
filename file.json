@@ -2022,7 +2022,8 @@
     "User.adebdca6-b24e-4615-a8ec-25c0ae4955de": {
         "id": "adebdca6-b24e-4615-a8ec-25c0ae4955de",
         "created_at": "2023-08-11T12:07:19.413234",
-        "updated_at": "2023-08-11T12:07:19.413235",
+        "updated_at": "2023-08-11T12:33:31.191201",
+        "first_name": "Bese",
         "__class__": "User"
     },
     "Review.f09ba441-168e-4022-b03d-c97d0a6fdc06": {
@@ -2121,21 +2122,6 @@
         "id": "d26de10a-8b5c-4c52-8038-78401dd3b309",
         "created_at": "2023-08-11T12:07:19.436783",
         "updated_at": "2023-08-11T12:07:19.436826",
-        "__class__": "User"
-    },
-    "User.f4b2bf6e-40d6-4d63-8aa8-7ee4fab793cc": {
-        "id": "f4b2bf6e-40d6-4d63-8aa8-7ee4fab793cc",
-        "created_at": "2023-08-11T12:07:19.441675",
-        "updated_at": "2023-08-11T12:07:19.441681",
-        "email": "AirBnB@gmail.com",
-        "first_name": "AirBnB",
-        "password": "AirBnB123",
-        "__class__": "User"
-    },
-    "User.c3b8dcea-c009-4cd3-9cea-2807bbb91f44": {
-        "id": "c3b8dcea-c009-4cd3-9cea-2807bbb91f44",
-        "created_at": "2023-08-11T12:07:19.442024",
-        "updated_at": "2023-08-11T12:07:19.442032",
         "__class__": "User"
     }
 }
