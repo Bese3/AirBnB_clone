@@ -94,11 +94,18 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        if args[0] + "." + args[1] not in models.storage.all().keys():
-            print("** no instance found **")
-            return
-        del models.storage.all()[args[0] + "." + args[1]]
-        models.storage.save()
+        try:
+            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
+               print("** no instance found **")
+               return
+            del models.storage.all()[args[0] + "." + eval(args[1])]
+            models.storage.save()
+        except Exception:
+            if args[0] + "." + args[1] not in models.storage.all().keys():
+               print("** no instance found **")
+               return
+            del models.storage.all()[args[0] + "." + args[1]]
+            models.storage.save()
 
     def do_all(self, args):
         """`all`Usage: all or all <class> or <class>.all()
