@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
 
     def do_show(self, args):
-        """`show` Usage: show <class> <id>
+        """`show` Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance."""
         args = args.split(" ")
         if len(args) == 1 and args == ['']:
@@ -70,10 +70,16 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        if args[0] + "." + args[1] not in models.storage.all().keys():
-            print("** no instance found **")
-            return
-        print(models.storage.all()[args[0] + "." + args[1]])
+        try:
+            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
+                print("** no instance found **")
+                return
+            print(models.storage.all()[args[0] + "." + eval(args[1])])
+        except Exception:
+            if args[0] + "." + args[1] not in models.storage.all().keys():
+                print("** no instance found **")
+                return
+            print(models.storage.all()[args[0] + "." + args[1]])
 
     def do_destroy(self, args):
         """`do_destroy` Usage: destroy <class> <id>
