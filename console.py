@@ -71,7 +71,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
+            if args[0] + "." + eval(args[1]) not in
+            models.storage.all().keys():
                 print("** no instance found **")
                 return
             print(models.storage.all()[args[0] + "." + eval(args[1])])
@@ -95,15 +96,16 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
-               print("** no instance found **")
-               return
+            if args[0] + "." + eval(args[1]) not in
+            models.storage.all().keys():
+                print("** no instance found **")
+                return
             del models.storage.all()[args[0] + "." + eval(args[1])]
             models.storage.save()
         except Exception:
             if args[0] + "." + args[1] not in models.storage.all().keys():
-               print("** no instance found **")
-               return
+                print("** no instance found **")
+                return
             del models.storage.all()[args[0] + "." + args[1]]
             models.storage.save()
 
