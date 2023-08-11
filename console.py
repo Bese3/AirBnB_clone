@@ -71,8 +71,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            if args[0] + "." + eval(args[1]) not in
-            models.storage.all().keys():
+            if args[0] + "." + eval(args[1]) not in\
+                 models.storage.all().keys():
                 print("** no instance found **")
                 return
             print(models.storage.all()[args[0] + "." + eval(args[1])])
@@ -83,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
             print(models.storage.all()[args[0] + "." + args[1]])
 
     def do_destroy(self, args):
-        """`do_destroy` Usage: destroy <class> <id>
+        """`destroy` Usage: destroy <class> <id>
         Delete a class instance of a given id."""
         args = args.split(" ")
         if len(args) == 1 and args == ['']:
@@ -96,8 +96,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         try:
-            if args[0] + "." + eval(args[1]) not in
-            models.storage.all().keys():
+            if args[0] + "." + eval(args[1]) not in\
+                 models.storage.all().keys():
                 print("** no instance found **")
                 return
             del models.storage.all()[args[0] + "." + eval(args[1])]
@@ -140,25 +140,31 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 1:
             print("** instance id missing **")
             return
-        if args[0] + "." + args[1] not in models.storage.all().keys():
-            print("** no instance found **")
-            return
         if len(args) == 2:
             print("** attribute name missing **")
             return
         if len(args) == 3:
             print("** value missing **")
             return
-        obj = models.storage.all()[args[0] + "." + args[1]]
+        try:
+            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
+                print("** no instance found **")
+                return 
+            obj = models.storage.all()[args[0] + "." + eval(args[1])]
+        except Exception:
+            if args[0] + "." + args[1] not in models.storage.all().keys():
+                print("** no instance found **")
+                return 
+            obj = models.storage.all()[args[0] + "." + args[1]]
         try:
             if str(int(args[3])) == args[3]:
-                setattr(obj, args[2], int(args[3]))
+                setattr(obj, args[2].replace("\"", ""), int(args[3]))
                 obj.save()
                 return
         except ValueError:
             try:
                 if str(float(args[3])) == args[3]:
-                    setattr(obj, args[2], float(args[3]))
+                    setattr(obj, args[2].replace("\"", ""), float(args[3]))
                     obj.save()
                     return
             except ValueError:
@@ -172,7 +178,7 @@ class HBNBCommand(cmd.Cmd):
                             value += " "
                         i += 1
                     args[3] = value
-                setattr(obj, args[2], (args[3]))
+                setattr(obj, args[2].replace("\"", ""), (args[3]))
                 obj.save()
 
     def default(self, line):
@@ -210,7 +216,7 @@ class HBNBCommand(cmd.Cmd):
             return super().default(line)
 
     def do_count(self, args):
-        """`do_count` Usage count <class_name> or <class_name>.count()
+        """`count` Usage count <class_name> or <class_name>.count()
         Example: count User or User.count()"""
 
         args = args.split(" ")
