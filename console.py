@@ -129,7 +129,6 @@ class HBNBCommand(cmd.Cmd):
         """`update`
         update <class name> <id> <attribute name> "<attribute value>"
         Updates current instance of a class."""
-
         args = args.split(" ")
         if len(args) == 1 and args == ['']:
             print("** class name missing **")
@@ -147,27 +146,45 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
         try:
-            if args[0] + "." + eval(args[1]) not in models.storage.all().keys():
+            if args[0] + "." + eval(args[1]) not in\
+                 models.storage.all().keys():
                 print("** no instance found **")
-                return 
+                return
             obj = models.storage.all()[args[0] + "." + eval(args[1])]
         except Exception:
             if args[0] + "." + args[1] not in models.storage.all().keys():
                 print("** no instance found **")
-                return 
+                return
             obj = models.storage.all()[args[0] + "." + args[1]]
+        # print(type(eval(args[2])))
+        if args[2][0] == "{":
+            i = 2
+            my_dict = ""
+            while i < len(args):
+                my_dict += args[i]
+                if i != len(args) - 1:
+                    my_dict += " "
+                i += 1
+            for key, value in eval(my_dict).items():
+                try:
+                    setattr(obj, key.replace("\"", ""),
+                            value.replace("\"", ""))
+                except AttributeError:
+                    setattr(obj, key.replace("\"", ""), value)
+            obj.save()
+            return
         try:
             if str(int(args[3])) == args[3]:
                 setattr(obj, args[2].replace("\"", ""), int(args[3]))
                 obj.save()
                 return
-        except ValueError:
+        except (ValueError, TypeError):
             try:
                 if str(float(args[3])) == args[3]:
                     setattr(obj, args[2].replace("\"", ""), float(args[3]))
                     obj.save()
                     return
-            except ValueError:
+            except (ValueError, TypeError):
                 """handling Double Quotes in arguments"""
                 if args[3][0] == "\"":
                     value = ""
