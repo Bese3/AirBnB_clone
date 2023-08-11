@@ -14,6 +14,7 @@ class BaseModel:
     functionality for creating and updating objects, as well as
     converting objects to dictionaries and string representations.
     """
+
     def __init__(self, *args, **kwargs):
         """
         The above function initializes an object with a unique
@@ -35,7 +36,7 @@ class BaseModel:
         """
         The function updates the "updated_at" attribute of
         an object with the current datetime.
-        """ 
+        """
         self.updated_at = datetime.now()
         models.storage.save()
 

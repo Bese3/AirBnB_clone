@@ -174,6 +174,8 @@ class HBNBCommand(cmd.Cmd):
                 self.do_all(my_class)
             if my_func == "create":
                 self.do_create(my_class)
+            if my_func == "count":
+                self.do_count(my_class)
             my_func = my_func.split(' ')
             i = 1
             while i < len(my_func):
@@ -189,6 +191,41 @@ class HBNBCommand(cmd.Cmd):
                 self.do_update(my_class)
         else:
             return super().default(line)
+
+    def do_count(self, args):
+        """`do_count` Usage count <class_name> or <class_name>.count()
+        Example: count User or User.count()"""
+
+        args = args.split(" ")
+        if args == ['']:
+            print("** class name missing **")
+            return
+        if args[0] not in self.__classes:
+            print("** class doesn't exist **")
+            return
+        BaseModel_obj = 0
+        User_obj = 0
+        State_obj = 0
+        City_obj = 0
+        Amenity_obj = 0
+        Place_obj = 0
+        Review_obj = 0
+        for i in models.storage.all().values():
+            if type(i) is BaseModel:
+                BaseModel_obj += 1
+            if type(i) is User:
+                User_obj += 1
+            if type(i) is State:
+                State_obj += 1
+            if type(i) is City:
+                City_obj += 1
+            if type(i) is Amenity:
+                Amenity_obj += 1
+            if type(i) is Place:
+                Place_obj += 1
+            if type(i) is Review:
+                Review_obj += 1
+        print(eval(args[0] + "_obj"))
 
 
 if __name__ == '__main__':
