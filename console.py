@@ -95,20 +95,20 @@ class HBNBCommand(cmd.Cmd):
         models.storage.save()
 
     def do_all(self, args):
-        """`all`Usage: all or all <class>
+        """`all`Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class."""
 
         args = args.split(" ")
         if args == ['']:
-            for i in models.storage.all().values():
-                print(i)
+            objs = [i.__str__() for i in models.storage.all().values()]
+            print(objs)
             return
         if args[0] not in self.__classes and args != ['']:
             print("** class doesn't exist **")
             return
-        for i in models.storage.all().keys():
-            if args[0] in i:
-                print(models.storage.all()[i])
+        objs = [i.__str__() for i in models.storage.all().values() if
+                i.to_dict()["__class__"] == args[0]]
+        print(objs)
 
     def do_update(self, args):
         """`update`
@@ -116,8 +116,6 @@ class HBNBCommand(cmd.Cmd):
         Updates current instance of a class."""
 
         args = args.split(" ")
-        print(args)
-        print(args[3][0])
         if len(args) == 1 and args == ['']:
             print("** class name missing **")
             return
@@ -161,6 +159,36 @@ class HBNBCommand(cmd.Cmd):
                     args[3] = value
                 setattr(obj, args[2], (args[3]))
                 obj.save()
+
+    def default(self, line):
+        """
+        The function takes a line of input, splits it
+        into class and function parts, and then calls
+        the appropriate function based on the input.
+        """
+        dot_split = line.split('.')
+        my_class = dot_split[0]
+        if my_class in self.__classes:
+            my_func = dot_split[1].replace("()", "")
+            if my_func == "all":
+                self.do_all(my_class)
+            if my_func == "create":
+                self.do_create(my_class)
+            my_func = my_func.split(' ')
+            i = 1
+            while i < len(my_func):
+                if i != len(my_func):
+                    my_class += " "
+                my_class += my_func[i]
+                i += 1
+            if my_func[0] == "show":
+                self.do_show(my_class)
+            if my_func[0] == "destroy":
+                self.do_destroy(my_class)
+            if my_func[0] == "update":
+                self.do_update(my_class)
+        else:
+            return super().default(line)
 
 
 if __name__ == '__main__':
