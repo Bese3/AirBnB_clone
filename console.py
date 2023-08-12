@@ -27,11 +27,15 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def do_quit(self, arg):
-        """Exit the HBNB console:  quit"""
+        """Exit the HBNB console:  quit
+
+        """
         return True
 
     def do_EOF(self, arg):
-        """Exit the HBNB console:  EOF"""
+        """Exit the HBNB console:  EOF
+
+        """
         print("")
         return True
 
