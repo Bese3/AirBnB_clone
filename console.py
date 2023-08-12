@@ -34,10 +34,6 @@ class HBNBCommand(cmd.Cmd):
         """Exit the HBNB console:  EOF"""
         return True
 
-    def postloop(self):
-        """Print a new line when program exits"""
-        print()
-
     def emptyline(self):
         """Empty line + Enter will just return the prompt without any error.
         i.e. the prompt will not execute the previous command"""
