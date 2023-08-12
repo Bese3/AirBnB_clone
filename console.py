@@ -22,25 +22,27 @@ class HBNBCommand(cmd.Cmd):
         "BaseModel",
         "User",
         "Place",
-        "State",    
+        "State",
         "City",
         "Amenity",
         "Review",
     }
 
-    def do_quit(self, *args):
-        """`quit` command quits the process at hand"""
+    def do_quit(self, arg):
+        """Exit the HBNB console:  quit"""
         return True
 
-    def do_EOF(self, *args):
-        """`EOF` is used to handle the end of file (EOF) signal."""
-        print("")
+    def do_EOF(self, arg):
+        """Exit the HBNB console:  EOF"""
         return True
+
+    def postloop(self):
+        """Print a new line when program exits"""
+        print()
 
     def emptyline(self):
-        """
-        The function "emptyline" does nothing and serves as a placeholder.
-        """
+        """Empty line + Enter will just return the prompt without any error.
+        i.e. the prompt will not execute the previous command"""
         pass
 
     def do_create(self, args):
