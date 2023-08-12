@@ -26,6 +26,45 @@ class HBNBCommand(cmd.Cmd):
         "Review",
     }
 
+    def emptyline(self):
+        """Empty line + Enter will just return the prompt without any error.
+        i.e. the prompt will not execute the previous command"""
+        pass
+
+    def default(self, line):
+        """
+        The function takes a line of input, splits it
+        into class and function parts, and then calls
+        the appropriate function based on the input.
+        """
+        dot_split = line.split('.')
+        my_class = dot_split[0]
+        if my_class in self.__classes:
+            my_func = dot_split[1].replace("()", "")
+            if my_func == "all":
+                self.do_all(my_class)
+            if my_func == "create":
+                self.do_create(my_class)
+            if my_func == "count":
+                self.do_count(my_class)
+            my_func = my_func.replace("(", " ")
+            my_func = my_func.replace(")", "")
+            my_func = my_func.split(' ')
+            i = 1
+            while i < len(my_func):
+                if i != len(my_func):
+                    my_class += " "
+                my_class += my_func[i]
+                i += 1
+            if my_func[0] == "show":
+                self.do_show(my_class)
+            if my_func[0] == "destroy":
+                self.do_destroy(my_class)
+            if my_func[0] == "update":
+                self.do_update(my_class)
+        else:
+            return super().default(line)
+
     def do_quit(self, arg):
         """Exit the HBNB console:  quit
 
@@ -38,11 +77,6 @@ class HBNBCommand(cmd.Cmd):
         """
         print("")
         return True
-
-    def emptyline(self):
-        """Empty line + Enter will just return the prompt without any error.
-        i.e. the prompt will not execute the previous command"""
-        pass
 
     def do_create(self, args):
         """`create` creates a new instance of a class and saves it,
@@ -198,40 +232,6 @@ class HBNBCommand(cmd.Cmd):
                     args[3] = value
                 setattr(obj, args[2].replace("\"", ""), (args[3]))
                 obj.save()
-
-    def default(self, line):
-        """
-        The function takes a line of input, splits it
-        into class and function parts, and then calls
-        the appropriate function based on the input.
-        """
-        dot_split = line.split('.')
-        my_class = dot_split[0]
-        if my_class in self.__classes:
-            my_func = dot_split[1].replace("()", "")
-            if my_func == "all":
-                self.do_all(my_class)
-            if my_func == "create":
-                self.do_create(my_class)
-            if my_func == "count":
-                self.do_count(my_class)
-            my_func = my_func.replace("(", " ")
-            my_func = my_func.replace(")", "")
-            my_func = my_func.split(' ')
-            i = 1
-            while i < len(my_func):
-                if i != len(my_func):
-                    my_class += " "
-                my_class += my_func[i]
-                i += 1
-            if my_func[0] == "show":
-                self.do_show(my_class)
-            if my_func[0] == "destroy":
-                self.do_destroy(my_class)
-            if my_func[0] == "update":
-                self.do_update(my_class)
-        else:
-            return super().default(line)
 
     def do_count(self, args):
         """`count` Usage count <class_name> or <class_name>.count()
