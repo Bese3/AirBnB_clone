@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+
+"""Defines the HBnB console."""
+
 import cmd
 from models.base_model import BaseModel
 import models
@@ -8,15 +11,10 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-"""Defines the HBnB console."""
 
 
 class HBNBCommand(cmd.Cmd):
-    """
-    The `HBNBCommand` class is a command-line interface that
-    allows users to interact with a process and execute commands
-    such as quitting or handling the end of file signal.
-    """
+    """The console program for this AirBnB clone starts here"""
     prompt = "(hbnb) "
     __classes = {
         "BaseModel",
