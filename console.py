@@ -2,6 +2,7 @@
 
 """Defines the HBnB console."""
 
+import re
 import cmd
 from models.base_model import BaseModel
 import models
@@ -43,25 +44,24 @@ class HBNBCommand(cmd.Cmd):
             my_func = dot_split[1].replace("()", "")
             if my_func == "all":
                 self.do_all(my_class)
+                return
             if my_func == "create":
                 self.do_create(my_class)
+                return
             if my_func == "count":
                 self.do_count(my_class)
-            my_func = my_func.replace("(", " ")
-            my_func = my_func.replace(")", "")
-            my_func = my_func.split(' ')
-            i = 1
-            while i < len(my_func):
-                if i != len(my_func):
-                    my_class += " "
-                my_class += my_func[i]
-                i += 1
-            if my_func[0] == "show":
-                self.do_show(my_class)
-            if my_func[0] == "destroy":
-                self.do_destroy(my_class)
-            if my_func[0] == "update":
-                self.do_update(my_class)
+                return
+            my_dict = long_parse(my_func)
+            for i in my_dict.values():
+                for j in i:
+                    my_class += " " + j
+            for i in my_dict.keys():
+                if "show" == i:
+                    self.do_show(my_class)
+                if "update" == i:
+                    self.do_update(my_class)
+                if "destroy" == i:
+                    self.do_destroy(my_class)
         else:
             return super().default(line)
 
@@ -265,6 +265,31 @@ class HBNBCommand(cmd.Cmd):
             if type(i) is Review:
                 Review_obj += 1
         print(eval(args[0] + "_obj"))
+
+
+def long_parse(args):
+    """
+    The function `long_parse` takes a string argument
+    and parses it to create a dictionary with three
+    key-value pairs.
+    """
+    args = args.replace(")", "")
+    args = args.split("(")
+    my_arg = args[1].split(" ")
+    args = args[0]
+    id = ""
+    attr = ""
+    value = ""
+    new_list = [id, attr, value]
+    i = 0
+    while i < len(my_arg):
+        if my_arg[i]:
+            new_list[i] = my_arg[i].replace("\"", "")
+        else:
+            break
+        i += 1
+    result = {args: new_list}
+    return result
 
 
 if __name__ == '__main__':
