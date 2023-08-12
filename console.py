@@ -32,6 +32,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """Exit the HBNB console:  EOF"""
+        print("")
         return True
 
     def emptyline(self):
