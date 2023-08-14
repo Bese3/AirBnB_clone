@@ -275,7 +275,8 @@ def long_parse(args):
     """
     args = args.replace(")", "")
     args = args.split("(")
-    my_arg = args[1].split(" ")
+    
+    my_arg = args[1].split(", ")
     args = args[0]
     id = ""
     attr = ""
