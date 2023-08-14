@@ -38,7 +38,7 @@ class HBNBCommand(cmd.Cmd):
         into class and function parts, and then calls
         the appropriate function based on the input.
         """
-        dot_split = line.split('.')
+        dot_split = line.split('.', maxsplit=1)
         my_class = dot_split[0]
         if my_class in self.__classes:
             my_func = dot_split[1].replace("()", "")
@@ -53,8 +53,11 @@ class HBNBCommand(cmd.Cmd):
                 return
             my_dict = long_parse(my_func)
             for i in my_dict.values():
-                for j in i:
-                    my_class += " " + j
+                if type(i) is not dict:
+                    for j in i:
+                       my_class += " " + j
+                else:
+                    my_class += " " + i
             for i in my_dict.keys():
                 if "show" == i:
                     self.do_show(my_class)
@@ -199,11 +202,7 @@ class HBNBCommand(cmd.Cmd):
                     my_dict += " "
                 i += 1
             for key, value in eval(my_dict).items():
-                try:
-                    setattr(obj, key.replace("\"", ""),
-                            value.replace("\"", ""))
-                except AttributeError:
-                    setattr(obj, key.replace("\"", ""), value)
+                setattr(obj, key, value)
             obj.save()
             return
         try:
@@ -275,21 +274,31 @@ def long_parse(args):
     """
     args = args.replace(")", "")
     args = args.split("(")
-    
+    curly = re.search(r"\{(.*?)\}", args[len(args) - 1])
+    if curly is None:
+        my_arg = args[1].split(", ")
+        args = args[0]
+        id = ""
+        attr = ""
+        value = ""
+        new_list = [id, attr, value]
+        i = 0
+        while i < len(my_arg):
+            if my_arg[i]:
+                new_list[i] = my_arg[i].replace("\"", "")
+            else:
+                break
+            i += 1
+        result = {args: new_list}
+        return result
     my_arg = args[1].split(", ")
-    args = args[0]
-    id = ""
-    attr = ""
-    value = ""
-    new_list = [id, attr, value]
-    i = 0
+    i = 2
     while i < len(my_arg):
-        if my_arg[i]:
-            new_list[i] = my_arg[i].replace("\"", "")
-        else:
-            break
+        my_arg[1] += ", " + my_arg[i]
         i += 1
-    result = {args: new_list}
+    my_arg = [my_arg[0].replace("\"", ""), my_arg[1]]
+    args = args[0]
+    result = {args: my_arg}
     return result
 
 
