@@ -55,7 +55,7 @@ class HBNBCommand(cmd.Cmd):
             for i in my_dict.values():
                 if type(i) is not dict:
                     for j in i:
-                       my_class += " " + j
+                        my_class += " " + j
                 else:
                     my_class += " " + i
             for i in my_dict.keys():
