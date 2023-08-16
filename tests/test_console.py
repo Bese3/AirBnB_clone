@@ -7,6 +7,7 @@ from unittest.mock import patch
 # from io import stringIO
 import sys
 
+
 class TestHBNBCommand_prompting(unittest.TestCase):
     @classmethod
     def setUpClass(self):
