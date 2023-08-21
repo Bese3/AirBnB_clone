@@ -1,7 +1,7 @@
 footer {
     display: flex;
     background-color: #FFFFFF;
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     height: 60px;
     width: 100%;
